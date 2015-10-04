@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="DIT IS DE TITEL"/>
+
+    <TextView
+        android:id="@+id/textview_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="CATEGORIE"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dit is de beschrijving van het event met veel tekst toet toet blablabablabla"/>
+
+    <TextView
+        android:id="@+id/textview_spots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3/5"/>
+
+</LinearLayout>
