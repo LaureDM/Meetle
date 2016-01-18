@@ -8,61 +8,55 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.meetle.lauresoft.meetle.R;
 import com.meetle.lauresoft.meetle.adapters.EventAdapter;
 import com.meetle.lauresoft.meetle.models.Event;
-import com.meetle.lauresoft.meetle.models.EventDay;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by lauredemey on 01/10/15.
+ * Created by lauredemey on 04/10/15.
  */
-public class EventFragment extends Fragment
+public class EventFragment extends BaseFragment
 {
+    public static final String EXTRA_EVENT = "extraEvent";
 
-    @Bind(R.id.textview_title)
-    TextView textViewTitle;
-
-    @Bind(R.id.recyclerview_events)
+    @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    private Event[] events;
+    private Event event;
 
-    private EventAdapter adapter;
-
-    private LinearLayoutManager layoutManager;
-
-    private String name;
+    private EventAdapter eventAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        this.events = (Event[]) getArguments().getParcelableArray("TEST");
+        final Bundle bundle = this.getArguments();
 
-        this.name = "PLACEHOLDER";
+        if (bundle != null)
+        {
+            this.event = bundle.getParcelable(EXTRA_EVENT);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view =  inflater.inflate(R.layout.fragment_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_event, container, false);
 
         ButterKnife.bind(this, view);
 
-        this.adapter = new EventAdapter(view.getContext());
-        this.adapter.setData(this.events);
+        this.eventAdapter = new EventAdapter(this.getContext());
 
-        this.layoutManager = new LinearLayoutManager(view.getContext());
+        this.eventAdapter.setData(this.event);
 
-        this.recyclerView.setAdapter(this.adapter);
-        this.recyclerView.setLayoutManager(this.layoutManager);
+        this.recyclerView.setAdapter(this.eventAdapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         return view;
     }

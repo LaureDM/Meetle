@@ -1,27 +1,57 @@
 package com.meetle.lauresoft.meetle.activities;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.meetle.lauresoft.meetle.R;
-import com.meetle.lauresoft.meetle.fragments.EventsFragment;
+import com.meetle.lauresoft.meetle.fragments.DaysFragment;
 
-public class MainActivity extends AppCompatActivity
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends BaseActivity
 {
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Bind(R.id.floating_action_button)
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+
+        this.setSupportActionBar(this.toolbar);
+        if(this.getSupportActionBar()!=null)
+        {
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
+        this.floatingActionButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                MainActivity.this.startActivity(AddEventActivity.getIntent(MainActivity.this));
+            }
+        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        EventsFragment eventsFragment = new EventsFragment();
-        fragmentTransaction.add(android.R.id.content, eventsFragment);
+        DaysFragment daysFragment = new DaysFragment();
+        fragmentTransaction.add(R.id.framelayout, daysFragment);
         fragmentTransaction.commit();
     }
 

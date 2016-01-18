@@ -3,19 +3,35 @@ package com.meetle.lauresoft.meetle.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.meetle.lauresoft.meetle.EventCategory;
+import com.meetle.lauresoft.meetle.creator.MeetleCreator;
 import com.meetle.lauresoft.meetle.interfaces.MeetleParcelable;
-
-import java.util.Date;
 
 /**
  * Created by lauredemey on 01/10/15.
  */
-public class Event implements MeetleParcelable
+public class Event implements Parcelable
 {
+    public static final Creator<Event> CREATOR = new Creator<Event>()
+    {
+        @Override
+        public Event createFromParcel(Parcel source)
+        {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size)
+        {
+            return new Event[size];
+        }
+    };
 
     private String name;
 
     private String description;
+
+    private EventCategory eventCategory;
 
     //private Date date;
 
@@ -32,15 +48,24 @@ public class Event implements MeetleParcelable
 
     public Event()
     {
-        this("", "", 0, 0);
+        this("", "", 0, 0, EventCategory.UNKNOWN);
     }
 
-    public Event(String name, String description, int totalSpots, int takenSpots)
+    public Event(Parcel parcel)
+    {
+        this.name = parcel.readString();
+        this.description = parcel.readString();
+        this.totalSpots = parcel.readInt();
+        this.takenSpots = parcel.readInt();
+    }
+
+    public Event(String name, String description, int totalSpots, int takenSpots, EventCategory eventCategory)
     {
         this.name = name;
         this.description = description;
         this.totalSpots = totalSpots;
         this.takenSpots = takenSpots;
+        this.eventCategory = eventCategory;
     }
 
     public String getName()
@@ -83,6 +108,11 @@ public class Event implements MeetleParcelable
         this.takenSpots = takenSpots;
     }
 
+    public EventCategory getEventCategory()
+    {
+        return eventCategory;
+    }
+
     @Override
     public int describeContents()
     {
@@ -96,14 +126,5 @@ public class Event implements MeetleParcelable
         dest.writeString(this.description);
         dest.writeInt(this.totalSpots);
         dest.writeInt(this.takenSpots);
-    }
-
-    @Override
-    public void readFromParcel(Parcel parcel)
-    {
-        this.name = parcel.readString();
-        this.description = parcel.readString();
-        this.totalSpots = parcel.readInt();
-        this.takenSpots = parcel.readInt();
     }
 }

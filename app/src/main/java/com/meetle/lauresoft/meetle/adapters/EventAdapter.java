@@ -1,89 +1,61 @@
 package com.meetle.lauresoft.meetle.adapters;
 
 import android.content.Context;
-import android.support.v4.widget.Space;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.meetle.lauresoft.meetle.R;
+import com.meetle.lauresoft.meetle.factories.EventViewHolderFactory;
 import com.meetle.lauresoft.meetle.models.Event;
 import com.meetle.lauresoft.meetle.views.BaseViewHolder;
-import com.meetle.lauresoft.meetle.views.DummyViewHolder;
-import com.meetle.lauresoft.meetle.views.EventViewHolder;
 
 /**
- * Created by lauredemey on 04/10/15.
+ * Created by lauredemey on 01/11/15.
  */
-public class EventAdapter extends RecyclerView.Adapter<BaseViewHolder>
+public class EventAdapter extends RecyclerView.Adapter<BaseViewHolder<Event>>
 {
 
-    protected LayoutInflater layoutInflater;
-
-    private static final int VIEWTYPE_EVENT = 1;
-
-    private Event[] events;
+    private static final int VIEWTYPE_TITLE = 1;
+    private static final int VIEWTYPE_DESCRIPTION = 2;
+    private static final int VIEWTYPE_DATE = 3;
+    private static final int VIEWTYPE_PLACE = 4;
+    private static final int VIEWTYPE_PARTICIPANT = 5;
 
     private Context context;
 
+    private Event event;
+
     public EventAdapter(Context context)
     {
-        this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    public void setData(Event[] events)
+    public void setData(Event event)
     {
-        this.events = events;
+        this.event = event;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position)
     {
-        //can currently only be an event type
-        return VIEWTYPE_EVENT;
+        return 1;
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public BaseViewHolder<Event> onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        BaseViewHolder viewHolder;
-        View view;
-
-        switch (viewType)
-        {
-            case VIEWTYPE_EVENT:
-                view = this.layoutInflater.inflate(R.layout.listitem_event, parent, false);
-                viewHolder = new EventViewHolder(view);
-                break;
-
-            default:
-                view = new Space(this.context);
-                viewHolder = new DummyViewHolder(view);
-
-        }
-
-        return viewHolder;
+        return EventViewHolderFactory.createEventViewHolder(viewType, viewGroup, this.context);
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position)
+    public void onBindViewHolder(BaseViewHolder<Event> baseViewHolder, int i)
     {
-
-        if (holder instanceof EventViewHolder)
-        {
-            holder.bindData(this.events[position]);
-        }
-        else
-        {
-            holder.bindData(null);
-        }
+        baseViewHolder.bindData(this.event);
     }
 
     @Override
     public int getItemCount()
     {
-        return events.length;
+        return 0;
     }
 }

@@ -8,8 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.meetle.lauresoft.meetle.EventCategory;
 import com.meetle.lauresoft.meetle.R;
-import com.meetle.lauresoft.meetle.adapters.EventPagerAdapter;
+import com.meetle.lauresoft.meetle.adapters.DayPagerAdapter;
 import com.meetle.lauresoft.meetle.models.Event;
 import com.meetle.lauresoft.meetle.models.EventDay;
 
@@ -21,18 +22,17 @@ import butterknife.ButterKnife;
 /**
  * The fragment that contains the viewpager for the events of the week
  */
-public class EventsFragment extends Fragment
+public class DaysFragment extends BaseFragment
 {
-
     @Bind(R.id.viewpager_events)
     ViewPager viewPagerEvents;
 
     private PagerAdapter pagerAdapter;
 
-    private Event[] mockEvents = {new Event("Event 1", "Dit is een event", 10, 3),
-            new Event("Event 2", "Dit is ook een event", 5, 0),
-            new Event("Event 3", "Dit is nog een event", 7, 7),
-            new Event("Event 4", "Dit is het laatste event", 2, 1)};
+    private Event[] mockEvents = {new Event("Event 1", "Dit is een event", 10, 3, EventCategory.CAFE),
+            new Event("Event 2", "Dit is ook een event", 5, 0, EventCategory.CONCERT),
+            new Event("Event 3", "Dit is nog een event", 7, 7, EventCategory.MOVIE),
+            new Event("Event 4", "Dit is het laatste event", 2, 1, EventCategory.BOARDGAMES)};
 
     private EventDay[] mockEventDays = new EventDay[7];
     private Event[] events;
@@ -42,7 +42,7 @@ public class EventsFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        for (int i = 0; i < 7 ; i++)
+        for (int i = 0; i < 3 ; i++)
         {
             this.mockEventDays[i] = new EventDay(new Date(), mockEvents);
         }
@@ -54,11 +54,11 @@ public class EventsFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_days, container, false);
 
         ButterKnife.bind(this, view);
 
-        this.pagerAdapter = new EventPagerAdapter(this.getFragmentManager(), this.mockEventDays);
+        this.pagerAdapter = new DayPagerAdapter(this.getFragmentManager(), this.mockEventDays);
         this.viewPagerEvents.setAdapter(this.pagerAdapter);
 
         return view;
