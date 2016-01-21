@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.meetle.lauresoft.meetle.DayType;
 import com.meetle.lauresoft.meetle.EventCategory;
 import com.meetle.lauresoft.meetle.R;
 import com.meetle.lauresoft.meetle.adapters.DayPagerAdapter;
@@ -29,24 +30,10 @@ public class DaysFragment extends BaseFragment
 
     private PagerAdapter pagerAdapter;
 
-    private Event[] mockEvents = {new Event("Event 1", "Dit is een event", 10, 3, EventCategory.CAFE),
-            new Event("Event 2", "Dit is ook een event", 5, 0, EventCategory.CONCERT),
-            new Event("Event 3", "Dit is nog een event", 7, 7, EventCategory.MOVIE),
-            new Event("Event 4", "Dit is het laatste event", 2, 1, EventCategory.BOARDGAMES)};
-
-    private EventDay[] mockEventDays = new EventDay[7];
-    private Event[] events;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        for (int i = 0; i < 3 ; i++)
-        {
-            this.mockEventDays[i] = new EventDay(new Date(), mockEvents);
-        }
-
     }
 
     @Override
@@ -58,7 +45,7 @@ public class DaysFragment extends BaseFragment
 
         ButterKnife.bind(this, view);
 
-        this.pagerAdapter = new DayPagerAdapter(this.getFragmentManager(), this.mockEventDays);
+        this.pagerAdapter = new DayPagerAdapter(this.getFragmentManager());
         this.viewPagerEvents.setAdapter(this.pagerAdapter);
 
         return view;

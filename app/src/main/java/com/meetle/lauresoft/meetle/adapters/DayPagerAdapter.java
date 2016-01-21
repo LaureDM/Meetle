@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.meetle.lauresoft.meetle.DayType;
+import com.meetle.lauresoft.meetle.fragments.BaseFragment;
 import com.meetle.lauresoft.meetle.fragments.DayFragment;
 import com.meetle.lauresoft.meetle.models.EventDay;
 import com.meetle.lauresoft.meetle.utils.DateUtils;
@@ -14,32 +16,34 @@ import com.meetle.lauresoft.meetle.utils.DateUtils;
  */
 public class DayPagerAdapter extends FragmentStatePagerAdapter
 {
+    private DayFragment[] dayFragments;
 
-    private EventDay[] eventDays;
-
-    public DayPagerAdapter(FragmentManager fm, EventDay[] events)
+    public DayPagerAdapter(FragmentManager fm)
     {
         super(fm);
-        this.eventDays = events;
+
+        this.dayFragments = new DayFragment[DayType.values().length];
+
+        for(int i = 0; i < this.dayFragments.length;i++)
+        {
+            DayFragment dayFragment = new DayFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong(DayFragment.EXTRA_DATE, DateUtils.getDate(i));
+            bundle.putInt(DayFragment.EXTRA_DAY_TYPE, DayType.values()[i].getName());
+            dayFragment.setArguments(bundle);
+            this.dayFragments[i] = new DayFragment();
+        }
     }
 
     @Override
     public int getCount()
     {
-        return this.eventDays.length;
+        return this.dayFragments == null ? 0 : this.dayFragments.length;
     }
 
     @Override
     public Fragment getItem(int position)
     {
-        DayFragment dayFragment = new DayFragment();
-        Bundle bundle = new Bundle();
-        //make parcelable object
-        // this.events[position]
-        //bundle.putParcelable(DayFragment.EXTRA_EVENT, );
-        bundle.putParcelableArray("TEST", this.eventDays[position].getEvents());
-        bundle.putString("DATE", DateUtils.formatDate(this.eventDays[position].getDate()));
-        dayFragment.setArguments(bundle);
-        return dayFragment;
+       return this.dayFragments[position];
     }
 }
